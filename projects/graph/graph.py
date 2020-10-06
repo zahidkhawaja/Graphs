@@ -44,6 +44,8 @@ class Graph:
             if current_node not in visited:
                 visited.add(current_node)
 
+                print(current_node)
+
                 for neighbor in self.get_neighbors(current_node):
                     q.enqueue(neighbor)
 
@@ -64,6 +66,8 @@ class Graph:
             if current_node not in visited:
                 visited.add(current_node)
 
+                print(current_node)
+
                 for neighbor in self.get_neighbors(current_node):
                     s.push(neighbor)
 
@@ -74,15 +78,9 @@ class Graph:
 
         This should be done using recursion.
         """
-        if visited is None:
-            visited = set()
 
-        if starting_vertex not in visited:
+        return self.dft(starting_vertex)
 
-            visited.add(starting_vertex)
-
-            for neighbor in self.get_neighbors(starting_vertex):
-                self.dft_recursive(neighbor, visited)
 
     def bfs(self, starting_vertex, destination_vertex):
         """
