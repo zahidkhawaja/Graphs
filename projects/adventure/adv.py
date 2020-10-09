@@ -1,13 +1,15 @@
-from room import Room
-from player import Player
-from world import World
+# Created the Stack class in util
+from util import Stack
 
 import random
 from ast import literal_eval
 
+from room import Room
+from player import Player
+from world import World
+
 # Load world
 world = World()
-
 
 # You may uncomment the smaller graphs for development and testing purposes.
 # map_file = "maps/test_line.txt"
@@ -29,6 +31,39 @@ player = Player(world.starting_room)
 # traversal_path = ['n', 'n']
 traversal_path = []
 
+def shortest_path(direction):
+    if direction == "n":
+        return "s"
+    elif direction == "s":
+        return "n"
+    elif direction == "e":
+        return "w"
+    elif direction == "w":
+        return "e"
+
+paths = Stack()
+visited = set()
+
+while len(visited) < len(world.rooms):
+    exits = player.current_room.get_exits()
+    path = []
+
+    for exit in exits:
+        if exit is not None and player.current_room.get_room_in_direction(exit) not in visited:
+            path.append(exit)
+
+    visited.add(player.current_room)
+
+    if len(path) > 0:
+        move = random.randint(0, len(path) -1)
+        paths.push(path[move])
+        player.travel(path[move])
+        traversal_path.append(path[move])
+
+    else:
+        end = paths.pop()
+        player.travel(shortest_path(end))
+        traversal_path.append(shortest_path(end))
 
 
 # TRAVERSAL TEST
